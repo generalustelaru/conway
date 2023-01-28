@@ -1,6 +1,6 @@
 worldSize = {
-    height: 390,
-    width: 390
+    width: 990,
+    height: 590,
 }
 const worldElement = document.querySelector('.world')
 let lifeCount = 0
@@ -9,20 +9,21 @@ let cells = []
 function createCell() {
     // create cell record
     const id = lifeCount++
-    const x = generateCoordinate('height')
-    const y = generateCoordinate('width')
-    const energy = 100
-    cells.push({ id, x, y, energy })
+    const x = randomizeCoordinate('width')
+    const y = randomizeCoordinate('height')
+    const energy = 20
+    const cell = new Cell(id, {x, y})
+    cells.push(cell)
     // create cell element
-    const cell = document.createElement('div')
-    cell.className = 'cell'
-    cell.id = id
-    cell.style.marginLeft = x + 'px'
-    cell.style.marginTop = y + 'px'
-    worldElement.appendChild(cell)
+    // const cell = document.createElement('div')
+    // cell.className = 'cell'
+    // cell.id = id
+    // cell.style.marginLeft = x + 'px'
+    // cell.style.marginTop = y + 'px'
+    // worldElement.appendChild(cell)
 }
 
-function generateCoordinate(axis) {
+function randomizeCoordinate(axis) {
     const axisProperty = axis === 'height' ? worldSize.height : worldSize.width
     roll = Math.round(Math.random() * axisProperty)
     return roll
@@ -32,11 +33,12 @@ let iterations = 10
 
 const simulation = setInterval(()=>{
     cells.forEach(cell => {
-        if (cell.energy <= 0) {
+        ({ energy } = cell.getCellData())
+        if (energy <= 0) {
             return
         }
-        if (cell.energy > 25) {
-            cell.energy -= 20
+        if (energy > 10) {
+            energy -= 20
             createCell() // add arguments to position the new cell next to parent
         }
         if (cell.energy > 0) {
