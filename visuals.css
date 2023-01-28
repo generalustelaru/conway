@@ -1,0 +1,28 @@
+:root {
+    --baseSize: 10px;
+}
+
+body {
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cell {
+    position: absolute;
+    width: var(--baseSize);
+    height: var(--baseSize);
+    background-color: white;
+    border-radius: calc(var(--baseSize) / 5);
+    /* margin-left: 50px;
+    margin-top: 70px; */
+}
+
+.world {
+    position: absolute;
+    background-color: brown;
+    width: 400px;
+    height: 400px;
+    border: 1px solid black;;
+}
