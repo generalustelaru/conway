@@ -18,7 +18,7 @@ function getNeighborCoords(cell) {
     ]
 }
 
-getCellsFromCoords = (coords) => {
+function getCellsFromCoords(coords) {
     return coords.map(coord => {
         const cell = cells.find(cell => {
             return cell.row === coord.row && cell.col === coord.col
