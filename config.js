@@ -26,7 +26,7 @@ const seeds = [
     {row: 13, col: 5},
 ]
 const iterations = 100;
-const interval = 250;
+const interval = 50;
 
 // selectors
 const root = document.documentElement;
