@@ -7,3 +7,4 @@ Features:
  - no-dependencies
  - configurable parameters
  - inefficient div-based rendering
+ - hardcoded seeds (glider hits penta-decathlon to form a barge)
