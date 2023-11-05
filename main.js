@@ -1,6 +1,6 @@
 function main() {
     drawWorld(cellSize, columns, rows, seeds);
-    runSimulation(iterations, interval);
+    start(iterations, interval);
 }
 
 function drawWorld(cellSize, columns, rows, seeds) {
@@ -30,10 +30,10 @@ function drawWorld(cellSize, columns, rows, seeds) {
         }
     }
 }
-function runSimulation(iterations, interval) {
+function start(iterations, interval) {
     const intervalFunction = setInterval(() => {
         const newGeneration = state.cells.map(cell => {
-            const liveNeighbors = checkNeighbors(cell);
+            const liveNeighbors = countLiveNeighbors(cell);
             return {
                 ...cell,
                 isAlive: cell.isAlive
@@ -42,7 +42,7 @@ function runSimulation(iterations, interval) {
             };
         });
         state.cells = newGeneration;
-        rePopulateWorld();
+        updateClasses();
     }, interval);
     setTimeout(() => {
         clearInterval(intervalFunction);
