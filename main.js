@@ -31,14 +31,13 @@ function drawWorld(cellSize, columns, rows, seeds) {
     }
 }
 function runSimulation(iterations, interval) {
-    let iteration;
     const intervalFunction = setInterval(() => {
         const newGeneration = state.cells.map(cell => {
-            const neighborCoords = getNeighborCoords(cell);
-            const neighborCells = getCellsFromCoords(neighborCoords);
-            const liveNeighbors = checkEnvironment(neighborCells);
+            const liveNeighbors = checkEnvironment(
+                getCellsFromCoords(getNeighborCoords(cell))
+            );
             if (cell.isAlive) {
-                if (liveNeighbors < 2 || liveNeighbors > 3) {
+                if (liveNeighbors < 2 || 3 < liveNeighbors) {
                     return { ...cell, isAlive: false }
                 } else {
                     return { ...cell, isAlive: true }
@@ -51,7 +50,6 @@ function runSimulation(iterations, interval) {
         });
         state.cells = newGeneration;
         rePopulateWorld();
-        ++iteration;
     }, interval);
     setTimeout(() => {
         clearInterval(intervalFunction);
