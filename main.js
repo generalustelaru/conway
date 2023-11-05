@@ -36,17 +36,12 @@ function runSimulation(iterations, interval) {
             const liveNeighbors = checkEnvironment(
                 getCellsFromCoords(getNeighborCoords(cell))
             );
-            if (cell.isAlive) {
-                if (liveNeighbors < 2 || 3 < liveNeighbors) {
-                    return { ...cell, isAlive: false }
-                } else {
-                    return { ...cell, isAlive: true }
-                }
-            } else if (liveNeighbors === 3) {
-                return { ...cell, isAlive: true }
-            } else {
-                return { ...cell, isAlive: false }
-            }
+            return {
+                ...cell,
+                isAlive: cell.isAlive
+                    ? [2, 3].includes(liveNeighbors) ? true : false
+                    : liveNeighbors === 3 ? true : false
+            };
         });
         state.cells = newGeneration;
         rePopulateWorld();
