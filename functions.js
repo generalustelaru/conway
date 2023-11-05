@@ -24,7 +24,7 @@ function getCellsFromCoords(coords) {
         }
     })
 }
-function checkEnvironment(cells){
+function checkEnvironment(cells) {
     const liveCells = cells.reduce((acc, cell) => {
         return cell.isAlive ? ++acc : acc
     }, 0)
@@ -37,11 +37,11 @@ function toID(row, col) {
 }
 
 function rePopulateWorld() {
-        state.cells.forEach(cell => {
+    state.cells.forEach(cell => {
         displayedCell = document.getElementById(toID(cell.row, cell.col));
         displayedCell.classList.remove('cell__dead');
         displayedCell.classList.remove('cell__alive');
-        if(cell.isAlive){
+        if (cell.isAlive) {
             displayedCell.classList.add('cell__alive');
         } else {
             displayedCell.classList.add('cell__dead');
