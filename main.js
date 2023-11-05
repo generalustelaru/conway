@@ -1,10 +1,9 @@
 function main() {
-    drawWorld(cellSize, columns, rows, seed);
-    logCells();
+    drawWorld(cellSize, columns, rows, seeds);
     runSimulation(iterations, interval);
 }
 
-function drawWorld(cellSize, columns, rows, seed) {
+function drawWorld(cellSize, columns, rows, seeds) {
     root.style.setProperty(cellSize.var, cellSize.value + 'px');
     root.style.setProperty(columns.var, columns.value);
     root.style.setProperty(rows.var, rows.value);
@@ -16,8 +15,10 @@ function drawWorld(cellSize, columns, rows, seed) {
             div.classList.add('cell')
             div.id = toID(row, col)
             let isAlive = false
-
-            if (row === seed.row && col === seed.col) {
+            const seed = seeds.find(seed => {
+                return seed.row === row && seed.col === col
+            })
+            if (seed) {
                 div.classList.add('cell__alive')
                 isAlive = true
             } else {
@@ -25,17 +26,35 @@ function drawWorld(cellSize, columns, rows, seed) {
             }
 
             world.appendChild(div)
-            cells.push({ row, col, isAlive })
+            state.cells.push({ row, col, isAlive })
         }
     }
 }
 function runSimulation(iterations, interval) {
-    let iteration = 1;
+    let iteration;
     const intervalFunction = setInterval(() => {
-        console.log('iteration', iteration);
+        const newGeneration = state.cells.map(cell => {
+            const neighborCoords = getNeighborCoords(cell);
+            const neighborCells = getCellsFromCoords(neighborCoords);
+            const liveNeighbors = checkEnvironment(neighborCells);
+            if (cell.isAlive) {
+                if (liveNeighbors < 2 || liveNeighbors > 3) {
+                    return { ...cell, isAlive: false }
+                } else {
+                    return { ...cell, isAlive: true }
+                }
+            } else if (liveNeighbors === 3) {
+                return { ...cell, isAlive: true }
+            } else {
+                return { ...cell, isAlive: false }
+            }
+        });
+        state.cells = newGeneration;
+        rePopulateWorld();
         ++iteration;
     }, interval);
     setTimeout(() => {
         clearInterval(intervalFunction);
-    }, (iterations + 1) * interval);
+        console.info('Simulation complete after', iterations, 'iterations');
+    }, (iterations) * interval);
 }

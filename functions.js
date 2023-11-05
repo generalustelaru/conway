@@ -1,9 +1,5 @@
 
 
-function logCells() {
-    console.log(cells)
-}
-
 function getNeighborCoords(cell) {
     const { row, col } = cell
     return [
@@ -19,21 +15,36 @@ function getNeighborCoords(cell) {
 }
 
 function getCellsFromCoords(coords) {
-    return coords.map(coord => {
-        const cell = cells.find(cell => {
+    return state.cells.filter(cell => {
+        const match = coords.find(coord => {
             return cell.row === coord.row && cell.col === coord.col
         })
-        return cell
+        if (match) {
+            return cell
+        }
     })
 }
 function checkEnvironment(cells){
-    let liveCells = 0;
-    cells.forEach(cell => {
-        liveCells += cell.isAlive ? 1 : 0;
-    });
+    const liveCells = cells.reduce((acc, cell) => {
+        return cell.isAlive ? ++acc : acc
+    }, 0)
+
     return liveCells;
 }
 
 function toID(row, col) {
     return `cell-${row}-${col}`
+}
+
+function rePopulateWorld() {
+        state.cells.forEach(cell => {
+        displayedCell = document.getElementById(toID(cell.row, cell.col));
+        displayedCell.classList.remove('cell__dead');
+        displayedCell.classList.remove('cell__alive');
+        if(cell.isAlive){
+            displayedCell.classList.add('cell__alive');
+        } else {
+            displayedCell.classList.add('cell__dead');
+        }
+    })
 }
