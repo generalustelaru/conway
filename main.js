@@ -1,36 +1,35 @@
-function main() {
-    drawWorld(cellSize, columns, rows, seeds);
-    start(iterations, interval);
-}
 
-function drawWorld(cellSize, columns, rows, seeds) {
+const state = { cells: [] }
+
+function main() {
+    const { cellSize, columns, rows } = config;
+    const root = document.documentElement;
+    // set CSS variables
     root.style.setProperty(cellSize.var, cellSize.value + 'px');
     root.style.setProperty(columns.var, columns.value);
     root.style.setProperty(rows.var, rows.value);
 
+    const { seeds } = config;
+    const container = document.querySelector('.container')
+    // create cells for state and DOM
     for (let row = 0; row < columns.value; row++) {
 
         for (let col = 0; col < rows.value; col++) {
             const div = document.createElement('div')
             div.classList.add('cell')
             div.id = toID(row, col)
-            let isAlive = false
-            const seed = seeds.find(seed => {
+            const isSeed = seeds.find(seed => {
                 return seed.row === row && seed.col === col
             })
-            if (seed) {
-                div.classList.add('cell__alive')
-                isAlive = true
-            } else {
-                div.classList.add('cell__dead')
-            }
+            div.classList.add(isSeed ? 'cell__alive' : 'cell__dead')
 
-            world.appendChild(div)
-            state.cells.push({ row, col, isAlive })
+            container.appendChild(div)
+            state.cells.push({ row, col, isAlive: isSeed})
         }
     }
-}
-function start(iterations, interval) {
+
+    const { interval } = config;
+    // run automata
     const intervalFunction = setInterval(() => {
         const newGeneration = state.cells.map(cell => {
             const liveNeighbors = countLiveNeighbors(cell);
@@ -44,6 +43,9 @@ function start(iterations, interval) {
         state.cells = newGeneration;
         updateClasses();
     }, interval);
+
+    const { iterations } = config;
+    // stop automata after iterations complete
     setTimeout(() => {
         clearInterval(intervalFunction);
         console.info('Simulation complete after', iterations, 'iterations');
