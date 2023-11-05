@@ -33,9 +33,7 @@ function drawWorld(cellSize, columns, rows, seeds) {
 function runSimulation(iterations, interval) {
     const intervalFunction = setInterval(() => {
         const newGeneration = state.cells.map(cell => {
-            const liveNeighbors = checkEnvironment(
-                getCellsFromCoords(getNeighborCoords(cell))
-            );
+            const liveNeighbors = checkNeighbors(cell);
             return {
                 ...cell,
                 isAlive: cell.isAlive

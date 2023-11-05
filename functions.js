@@ -1,8 +1,6 @@
-
-
-function getNeighborCoords(cell) {
-    const { row, col } = cell
-    return [
+function getNeighborCells(cell) {
+    const { row, col } = cell;
+    const neighborCoords = [
         { row: row - 1, col: col - 1 },
         { row: row - 1, col: col },
         { row: row - 1, col: col + 1 },
@@ -11,23 +9,21 @@ function getNeighborCoords(cell) {
         { row: row + 1, col: col - 1 },
         { row: row + 1, col: col },
         { row: row + 1, col: col + 1 }
-    ]
-}
-
-function getCellsFromCoords(coords) {
+    ];
     return state.cells.filter(cell => {
-        const match = coords.find(coord => {
-            return cell.row === coord.row && cell.col === coord.col
+        const match = neighborCoords.find(coord => {
+            return cell.row === coord.row && cell.col === coord.col;
         })
         if (match) {
-            return cell
+            return cell;
         }
     })
 }
-function checkEnvironment(cells) {
-    const liveCells = cells.reduce((acc, cell) => {
+function checkNeighbors(cell) {
+    const neighbors = getNeighborCells(cell);
+    const liveCells = neighbors.reduce((acc, cell) => {
         return cell.isAlive ? ++acc : acc
-    }, 0)
+    }, 0);
 
     return liveCells;
 }
