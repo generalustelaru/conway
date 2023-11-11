@@ -10,7 +10,7 @@ function main() {
     root.style.setProperty(rows.var, rows.value);
 
     const { seeds } = config;
-    const container = document.querySelector('.container')
+    const cellGrid = document.querySelector('.cellGrid')
     // create cells for state and DOM
     for (let row = 0; row < columns.value; row++) {
 
@@ -23,7 +23,7 @@ function main() {
             })
             div.classList.add(isSeed ? 'cell__alive' : 'cell__dead')
 
-            container.appendChild(div)
+            cellGrid.appendChild(div)
             state.cells.push({ row, col, isAlive: isSeed})
         }
     }
@@ -32,7 +32,7 @@ function main() {
     // run automata
     const intervalFunction = setInterval(() => {
         const newGeneration = state.cells.map(cell => {
-            const liveNeighbors = countLiveNeighbors(cell);
+            const liveNeighbors = countLiveNeighbors(state.cells, cell);
             return {
                 ...cell,
                 isAlive: cell.isAlive
@@ -41,7 +41,7 @@ function main() {
             };
         });
         state.cells = newGeneration;
-        updateClasses();
+        updateClasses(newGeneration);
     }, interval);
 
     const { iterations } = config;

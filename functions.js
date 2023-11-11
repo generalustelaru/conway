@@ -1,6 +1,6 @@
-function countLiveNeighbors(cell) {
+function countLiveNeighbors(cells, currentCell) {
     // calculate the coordinates of possible neighbors
-    const { row, col } = cell;
+    const { row, col } = currentCell;
     const neighborCoords = [
         { row: row - 1, col: col - 1 },
         { row: row - 1, col: col },
@@ -12,7 +12,7 @@ function countLiveNeighbors(cell) {
         { row: row + 1, col: col + 1 }
     ];
     // collect all neighbor cells from state
-    const neighbors = state.cells.filter(cell => {
+    const neighbors = cells.filter(cell => {
         if (neighborCoords.find(coord => {
             return cell.row === coord.row && cell.col === coord.col;
         })) {
@@ -30,8 +30,8 @@ function toID(row, col) {
     return `cell-${row}-${col}`
 }
 
-function updateClasses() {
-    state.cells.forEach(cell => {
+function updateClasses(cells) {
+    cells.forEach(cell => {
         displayedCell = document.getElementById(toID(cell.row, cell.col));
         displayedCell.classList.remove('cell__dead');
         displayedCell.classList.remove('cell__alive');
