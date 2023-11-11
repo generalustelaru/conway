@@ -4,16 +4,18 @@ let newGeneration; // extracted for comparison
 const root = document.documentElement;
 const cellGrid = document.querySelector('.cellGrid');
 
-function main() {
-    const { cellSize, columns, rows } = config;
-    setParameters(cellSize, columns, rows);
+function init() {
+    const { cellSize, columns, rows, interval, fadeSpeed } = config;
+    setParameters(cellSize, columns, rows, interval, fadeSpeed);
     populateGrid(columns, rows);
 }
 
-function setParameters(cellSize, columns, rows) {
+function setParameters(cellSize, columns, rows, interval, fadeSpeed) {
     root.style.setProperty(cellSize.var, cellSize.value + 'px');
     root.style.setProperty(columns.var, columns.value);
     root.style.setProperty(rows.var, rows.value);
+    root.style.setProperty(interval.var, interval.value + 'ms');
+    root.style.setProperty(fadeSpeed.var, fadeSpeed.value);
 }
 
 function populateGrid(columns, rows) {
@@ -49,8 +51,8 @@ function runAutomata() {
             }
         });
         state.cells = newGeneration;
-        updateClasses(newGeneration);
-    }, interval);
+        updateCSS(newGeneration);
+    }, interval.value);
 }
 
 function toggleRun() {

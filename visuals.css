@@ -10,6 +10,10 @@ body {
     width: var(--cellSize);
     height: var(--cellSize);
     border-radius: calc(var(--cellSize) / 10);
+
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition-property: background-color;
+    transition-duration: calc(var(--interval) * var(--fadeSpeed));
 }
 
 .cell__alive {

@@ -30,7 +30,7 @@ function toID(row, col) {
     return `cell-${row}-${col}`
 }
 
-function updateClasses(cells) {
+function updateCSS(cells) {
     cells.forEach(cell => {
         displayedCell = document.getElementById(toID(cell.row, cell.col));
         displayedCell.classList.remove('cell__dead');

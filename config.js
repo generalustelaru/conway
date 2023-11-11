@@ -25,5 +25,6 @@ const config = {
         {row: 13, col: 5},
     ],
     iterations: 100,
-    interval: 50,
+    interval: { var: '--interval', value: 250 },
+    fadeSpeed: { var: '--fadeSpeed', value: 5 },
 }
